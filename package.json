@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "babel-preset-es2015": "^6.24.1",
+        "laravel-vue-pagination": "^4.0.0",
         "sweetalert2": "^11.7.0"
     }
 }

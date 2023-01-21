@@ -1,57 +1,21 @@
-<script setup>
-import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
-import { Head } from '@inertiajs/inertia-vue3';
-import { defineComponent } from '@vue/runtime-core';
-import swal from 'sweetalert2';
-window.Swal = swal;
-</script>
-
 <script>
 
 import axios from 'axios';
 
 
-import { TailwindPagination } from 'laravel-vue-pagination';
 
-
-
-export default defineComponent({
-    data() {
+export default({
+    name: 'ListUsers',
+    props:["users"],
+    data: function(){
         return {
             users : {}
         }
     },
-    methods:{
-        getUser(page = 1){
-            axios.get("/users?page="+page)
-            .then((response) => {
-                this.users = response.data
-            })
-            .catch();
-        },
-        deleteUser(id){
-           Swal.fire({
-            title: 'Are you sure to delete the user?',
-            showDenyButton: false,
-            showCancelButton: true,
-            }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                axios.delete("/users/destroy/"+id)
-            .then(response => {
-                console.log(response)
-            })
-            .catch(error => {console.log(error.response)});
-            this.getUser();
-                Swal.fire('User deleted successfully!', '', 'success')
-            } else if (result.isDenied) {
-                //Swal.fire('Changes are not saved', '', 'info')
-            }
-            })
-        }
-    },
-    created(){
-        this.getUser();
+   beforeMount(){
+        this.$root.$on("getResul", data =>{
+            this.users = data;
+        })
     }
 })
 
@@ -60,16 +24,7 @@ export default defineComponent({
 
 
 <template>
-    <Head title="Dashboard" />
-
-    <BreezeAuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
-            </h2>
-        </template>
-
-        <div class="py-12">
+    <div class="py-12">
             <div  class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
@@ -106,9 +61,8 @@ export default defineComponent({
                             </div>
                         </div>
 
-
-
-                        <TailwindPagination
+{{users}}
+<TailwindPagination
                             :data="users"
                             @pagination-change-page="getUser"
                         />
@@ -118,11 +72,4 @@ export default defineComponent({
             </div>
         </div>
 
-
-
-
-    </BreezeAuthenticatedLayout>
 </template>
-
-
-
