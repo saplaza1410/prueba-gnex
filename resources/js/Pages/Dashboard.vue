@@ -35,7 +35,6 @@ export default defineComponent({
             showDenyButton: false,
             showCancelButton: true,
             }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 axios.delete("/users/destroy/"+id)
             .then(response => {

@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('users', [UsersController::class, 'index'])
                 ->name('users');
+
     Route::delete('users/destroy/{id}', [UsersController::class, 'destroy'])
                 ->name('destroy');
 });
